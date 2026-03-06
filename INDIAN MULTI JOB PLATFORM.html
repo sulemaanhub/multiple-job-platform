@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Neo Job Explorer</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+height:100vh;
+background:linear-gradient(135deg,#1f1c2c,#928dab);
+display:flex;
+flex-direction:column;
+align-items:center;
+color:white;
+overflow-x:hidden;
+}
+
+/* TITLE */
+
+h1{
+margin-top:40px;
+font-size:40px;
+letter-spacing:2px;
+}
+
+/* FLOATING SEARCH BAR */
+
+.searchBar{
+margin-top:40px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
+padding:10px;
+border-radius:40px;
+display:flex;
+box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+
+.searchBar input{
+border:none;
+outline:none;
+padding:12px;
+width:260px;
+border-radius:30px;
+font-size:16px;
+}
+
+.searchBar button{
+border:none;
+padding:12px 18px;
+border-radius:30px;
+background:#00e5ff;
+color:black;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.searchBar button:hover{
+background:#00bcd4;
+}
+
+/* GRID */
+
+.container{
+margin-top:60px;
+width:90%;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:25px;
+}
+
+/* GLASSMORPHISM CARD */
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+border-radius:15px;
+padding:25px;
+text-align:center;
+transition:0.4s;
+border:1px solid rgba(255,255,255,0.2);
+position:relative;
+overflow:hidden;
+}
+
+/* GLOW EFFECT */
+
+.card::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.2),
+transparent
+);
+transform:rotate(25deg);
+transition:0.6s;
+}
+
+.card:hover::before{
+left:100%;
+}
+
+/* 3D HOVER */
+
+.card:hover{
+transform:rotateX(5deg) rotateY(5deg) scale(1.05);
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+}
+
+/* TEXT */
+
+.title{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.platform{
+opacity:0.8;
+margin-bottom:15px;
+}
+
+/* BUTTON */
+
+.applyBtn{
+padding:10px 20px;
+border:none;
+border-radius:25px;
+background:linear-gradient(45deg,#00f2fe,#4facfe);
+color:black;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.applyBtn:hover{
+transform:scale(1.1);
+}
+
+/* FOOTER */
+
+footer{
+margin:40px;
+opacity:0.7;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>INDIAN MULTI JOB PLATFORM</h1>
+
+<div class="searchBar">
+<input id="skillInput" placeholder="Enter a skill (Python, AI, Java)">
+<button onclick="searchJobs()">Search</button>
+</div>
+
+<div class="container" id="jobs"></div>
+
+<footer>
+Explore opportunities across Indian job platforms
+</footer>
+
+<script>
+
+function searchJobs(){
+
+let skill=document.getElementById("skillInput").value;
+
+let container=document.getElementById("jobs");
+
+container.innerHTML="";
+
+if(skill.length<2){
+alert("Enter a valid skill");
+return;
+}
+
+let platforms=[
+
+{name:"Naukri",url:`https://www.naukri.com/${skill}-jobs`},
+
+{name:"LinkedIn",url:`https://www.linkedin.com/jobs/search/?keywords=${skill}`},
+
+{name:"Indeed",url:`https://in.indeed.com/jobs?q=${skill}`},
+
+{name:"Foundit",url:`https://www.foundit.in/srp/results?query=${skill}`},
+
+{name:"Shine",url:`https://www.shine.com/job-search/${skill}-jobs`},
+
+{name:"Freshersworld",url:`https://www.freshersworld.com/jobs/jobsearch/${skill}-jobs`},
+
+{name:"TimesJobs",url:`https://www.timesjobs.com/candidate/job-search.html?txtKeywords=${skill}`},
+
+{name:"Glassdoor",url:`https://www.glassdoor.co.in/Job/jobs.htm?sc.keyword=${skill}`},
+
+{name:"Internshala",url:`https://internshala.com/jobs/${skill}-jobs`}
+
+];
+
+platforms.forEach(site=>{
+
+let card=document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<div class="title">${skill} Jobs</div>
+
+<div class="platform">${site.name}</div>
+
+<button class="applyBtn" onclick="openSite('${site.url}')">
+View Jobs
+</button>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+function openSite(link){
+
+window.open(link,"_blank");
+
+}
+
+</script>
+
+</body>
+
+</html>
